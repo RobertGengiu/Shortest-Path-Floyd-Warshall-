@@ -1,0 +1,22 @@
+Tema1 
+
+1) solveSimple : Pentru cazul in care nu avem costuri am considerat o dinamica dp[i][j][k] = cum ajung de la nodul i la nodul j daca toate nodurile intermediare sunt mai mici sau egale decat k.
+Recurentele dinamicii sunt urmatoarele:
+	dp[i][j][0] = 0, daca i = j
+	dp[i][j][0] = Infinit, daca nu exista muchie de la i la j
+	dp[i][j][0] = Cost(i, j), in cazul in care exista muchie de la nodul i l a nodurl 1
+	dp[i][j][k] = minimum(dp[i][j][k - 1], dp[i][k][k - 1] + dp[k][j][k - 1])
+Explicatia este urmatoarea : daca vreau sa ajung de la nodul i la nodul j cu toate nodurile intermediare mai mici sau egale decat k ori folosesc noduri intermediare mai mici sau egale decat k - 1 caz in care solutia este dp[i][j][k - 1], ori folosesc si nodul k caz in care o sa am un drum de la i la k cu noduri mai mici sau egale decat k - 1 si un drum de la k la j cu noduri intermediare mai mici sau egale decat k - 1, caz in care solutia va fi dp[i][j][k - 1] + dp[k][j][k - 1], iar deoarece trebuia sa alegem optim vom alege minimul dintre ele.
+Pentru implementrea problemei am folosit o functie solve (n, muchii) care intoarce o pereche de forma (lista de noduri din drum, cost), unde costul este maxInt in caz in care nu gasesc drum. Am ales sa fac asta deoarce este mult mai usor sa reconstruiesti drumul in acest fel. Functia solveSimple intoarce un Just sau un Nothing in functie de ce intoarce functia solve.
+
+Cu ajutorul functiei cauta imi pastrez din vectorul de muchii doar pe cele care contin unul dintre noduri egale cu o valoare data si cu ajutorul functiei ad imi construiesc o lista de liste, fiecare lista reprezentand lista de adiacenta a nodurilor
+
+2) solveCosts : dinamica este urmatoarea : dp[i][s] cum ajung din nodul i in nodul n daca momentan am suma de bani s. Relatiile de recurenta sunt :
+	dp[n][j] = 0
+	dp[i][0] = Inf
+	dp[i][su] = minim (cost(i, j) + dp[j][su - cost[j]]) unde j se plimba printre toti vecinii lu i cu proprietatea ca su >= cost[j].
+	folosim functia comp pentru a compara expresiile corespunzatoare fiilor lui j intre ele si functia mini care calculeaza minimul de mai sus folosindu se de functia de comparare.
+
+Functia solveCosts intoarce Nothing daca nu exista solutia si Just(raspuns) in caz ca exista solutie.
+
+Realizat de catre: Gengiu Robert
